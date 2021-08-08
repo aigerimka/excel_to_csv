@@ -14,13 +14,13 @@ import glob
 # - улучшить код или сделать для себя более интуитивным
 # в остальном по вопросам, просто пиши в личку с:
 
-for file in os.listdir("/папка, где лежат эксель файлы"):
+for file in os.listdir("/Volumes/Seagate Backup Plus Drive/Сара/Предприятия объединение-20210808T130628Z-001/Предприятия объединение"):
 
     print(file)
 
     # здесь ты в конце пути добавь бэкслеш или обычный слэш, что там добавляют в пути windows
     # тут будет путь к самому файлы
-    all_df = pd.read_excel('/папка, где лежат эксель файлы' + file, engine='openpyxl', sheet_name=None)
+    all_df = pd.read_excel('/Volumes/Seagate Backup Plus Drive/Сара/Предприятия объединение-20210808T130628Z-001/Предприятия объединение/' + file, engine='openpyxl', sheet_name=None)
 
     # парсим по одному объекту dict
     for i in all_df:
@@ -33,9 +33,12 @@ for file in os.listdir("/папка, где лежат эксель файлы")
         # Название компании идет заголовком колонки, поэтому он не будет отображаться
         # Добавляю заранее в списочек
         headers = ['Название компании']
-
-        for i in df[df.columns[0]]:
-            headers.append(i)
+        
+        try:
+            for i in df[df.columns[0]]:
+                headers.append(i)
+        except IndexError:
+            continue
 
         # Аналогично и с заголовком второй колонки, там у нас уже идет значение к "Название компании"
         # Также заранее помещаем в списочек
