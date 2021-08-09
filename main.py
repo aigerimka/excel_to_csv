@@ -1,6 +1,5 @@
 import pandas as pd 
 import openpyxl
-import re
 import os
 import glob
 
@@ -37,12 +36,14 @@ for file in os.listdir("/Volumes/Seagate Backup Plus Drive/Сара/Предпр
         try:
             for i in df[df.columns[0]]:
                 headers.append(i)
+            
+            values = [df.columns[1]]
         except IndexError:
             continue
 
         # Аналогично и с заголовком второй колонки, там у нас уже идет значение к "Название компании"
         # Также заранее помещаем в списочек
-        values = [df.columns[1]]
+        
 
         # Цикл проходится по df и записывает их по порядку, чтобы потом было легче их скреплять с headers
         for j in range(0, len(df.index)): # строки
