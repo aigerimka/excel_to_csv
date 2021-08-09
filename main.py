@@ -13,10 +13,12 @@ import glob
 # - улучшить код или сделать для себя более интуитивным
 # в остальном по вопросам, просто пиши в личку с:
 
+count = 0
+
 for file in os.listdir("/Volumes/Seagate Backup Plus Drive/Сара/Предприятия объединение-20210808T130628Z-001/Предприятия объединение"):
 
-    print(file)
-
+    print(file + ': открыт')
+    
     # здесь ты в конце пути добавь бэкслеш или обычный слэш, что там добавляют в пути windows
     # тут будет путь к самому файлы
     all_df = pd.read_excel('/Volumes/Seagate Backup Plus Drive/Сара/Предприятия объединение-20210808T130628Z-001/Предприятия объединение/' + file, engine='openpyxl', sheet_name=None)
@@ -67,8 +69,15 @@ for file in os.listdir("/Volumes/Seagate Backup Plus Drive/Сара/Предпр
         # наш новый датафрейм
         out_df = pd.DataFrame([values], columns=headers)
 
-        print(out_df)
-        print(df)
+        # print(out_df)
+        # print(df)
         
+        if out_df['Название компании'][0] == 'Unnamed: 1':
+            continue
+
         # чтобы он в csv заново не записывал headers при добавлении новых записей, я оставлю в гите, готовый файл out.csv с headers
         out_df.to_csv('out.csv', index=False, mode='a', header=False)
+        
+        count = count + 1
+        with open('companies.txt', 'a') as f:
+            f.write(str(count) + ': ' + file + '\n')
